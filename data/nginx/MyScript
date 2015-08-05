@@ -1,0 +1,25 @@
+server{
+	listen 80;
+
+	root /var/www/MyScript/;
+
+	server_name www.jdscript.com;
+
+	location ~ \.php {
+		include fastcgi_params;
+		fastcgi_pass 127.0.0.1:9000;
+
+		root html;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME /donnol/Project/MyScript/$fastcgi_script_name;
+	}
+
+	location ~ \.html {
+		expires -1;
+		try_files $uri = 404;
+	}
+
+	location / {
+		try_files $uri = 404;
+	}
+}
