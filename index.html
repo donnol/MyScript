@@ -1,8 +1,11 @@
 <html>
-<head><title>hello</title></head>
+<head>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+<title>hello</title>
+</head>
 <body>
 <div class="body">
-
+<button class="btn1"></button>
 <div class="level1">
 	<div class="first">
 	hello .</br>
@@ -67,3 +70,13 @@
 </style>
 </html>
 
+<script type="text/javascript">
+$("button.btn1").click(function(){
+	$("div.level1").animate({
+		left:'250px',
+		opacity:'0.5',
+		height:'160px',
+		width:'160px'
+	});
+});
+</script>
