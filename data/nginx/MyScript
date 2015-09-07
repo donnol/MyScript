@@ -5,18 +5,27 @@ server{
 
 	server_name www.jdscript.com;
 
-	location ~ \.php {
-		fastcgi_pass 127.0.0.1:9000;
-		fastcgi_index index.php;
-		fastcgi_param SCRIPT_FILENAME /var/www/MyScript$fastcgi_script_name;
+	rewrite ^/(.*\.html) /static/pages/$1 last;
+	rewrite ^/(.*\.js) /static/js/$1 last;
+	rewrite ^/(.*\.(jpg|jpeg|png|gif|mp3|midi|swf|ico)) /static/images/common/$1 last;
 
-		include fastcgi_params;
-	}
+	#location ~ \.php {
+	#	fastcgi_pass 127.0.0.1:9000;
+	#	fastcgi_index index.php;
+	#	fastcgi_param SCRIPT_FILENAME /var/www/MyScript$fastcgi_script_name;
+
+	#	include fastcgi_params;
+	#}
 
 	#location ~ \.html {
 	#	expires -1;
 	#	try_files $uri = 404;
 	#}
+
+	location ~ /app.* {
+		include         fastcgi_params;
+		fastcgi_pass    127.0.0.1:9001;
+	}
 
 	location / {
 		try_files $uri = 404;

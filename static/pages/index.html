@@ -1,0 +1,123 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,target-densitydpi=medium-dpi">
+	<script src="jquery-1.8.0.js"></script>
+	<title>hello</title>
+</head>
+<body>
+	<div class="main">
+		<div class="">
+			<div class="welco">
+				Hello.</br>
+				Welcome to jdscript.</br>
+				Just enjoy yourself.</br>
+			</div>
+
+			<div class="">
+			</div>
+		</div>
+		<div class="interval">
+		</div>
+
+		<div class="">
+			<div class="where"><!-- 身份 -> where -->
+				<b class="jfont">I</b> come from ray,
+			</div>
+
+			<div class="what"><!-- 经历 -> what -->
+				walk on way,
+			</div>
+		</div>
+
+		<div class="">
+			<div class="">
+				<div>
+					<div class="">
+						<div class="why"><!-- 爱好 -> why -->
+							like to play,
+						</div>
+						<div class="who"><!-- 成就 -> who -->
+							live with mei,
+						</div>
+					</div>
+					<div class="">
+						<div class="when"><!-- 期望 -> when -->
+							hope to wait,
+						</div>
+						<div class="how"><!-- 最近 -> how -->
+							git for great,
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="more"><!-- 空白 -> more -->
+				finally pay for gray.
+			</div>
+		</div>
+		<div class="interval">
+		</div>
+		<div>
+			<img class="jimg" src='me.jpg'></img>
+		</div>
+		<div class="interval">
+		</div>
+		<div>
+			now, you can choose to leave or to leave <a class="leave">your name</a>.
+		</div>
+		<div class="input">
+			<input class="in" type="text" name="username" class="username" /></br>
+			<input type="submit" value="提交" class="submit" />
+		</div>
+		<div class="interval">
+		</div>
+		<div class="showYourName">
+		</div>
+		<div class="interval">
+		</div>
+		<div class="showMsg">
+		</div>
+	</div>
+</body>
+<style type="text/css">
+.main { background:#F4F4F4; margin:0 auto; padding:0 auto; width:100%; max-width:600px; height:100%;}
+.jimg { background:#EDEDED; width:100%; }
+.interval { height:15px;}
+.jfont { font-size:30px;}
+.welco { background:#EDEDED; height: 10%; padding:2px;}
+.where { background:#EDEDED; padding:2px;}
+.what { background:#EDEDED; padding:2px;}
+.why { background:#EDEDED; padding:2px;}
+.who { background:#EDEDED; padding:2px;}
+.when { background:#EDEDED; padding:2px;}
+.how { background:#EDEDED; padding:2px;}
+.more { background:#EDEDED; padding:2px;}
+.in { padding:10px; width:100%; height:35px; border-color:#EDEDED;}
+.leave { color:#FC5457;}
+.input { display:none;}
+.showYourName { display:none;}
+.showMsg { display:block;}
+</style>
+<script type="text/javascript">
+$("a.leave").click(function(){
+	$(".showYourName").hide();
+	$(".input").toggle();
+});
+$(".submit").click(function(){
+	$(".input").toggle();
+	name = $(".in").attr("value");
+	$(".showYourName").text(name+" is a little pig (~∞~), hah.");
+	$(".showYourName").show();
+	$.post('http://www.jdscript.com:81/app', {name:name}, function(data){
+		$(".showMsg").html(data);
+	});
+});
+$('img').error(function() {
+	$(this).attr("src", "error.png");
+});
+</script>
+</html>
+
+
