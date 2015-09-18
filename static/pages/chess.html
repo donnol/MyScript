@@ -1,0 +1,353 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>井字过三关</title>
+		<script src="jquery-1.8.0.js"></script>
+		<style>
+			.container{
+				overflow:hidden;
+				float:left;
+				border:1px solid black;
+			}
+			.row{
+				float:left;
+				clear:both;
+				overflow:hidden;
+			}
+			.col{
+				float:left;
+				width:100px;
+				height:100px;
+				border:1px solid black;
+			}
+			.col.me{
+				background-color:red;
+			}
+			.col.computer{
+				background-color:green;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="title"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col" data-x="0" data-y="0"></div>
+				<div class="col" data-x="0" data-y="1"></div>
+				<div class="col" data-x="0" data-y="2"></div>
+			</div>
+			<div class="row">
+				<div class="col" data-x="1" data-y="0"></div>
+				<div class="col" data-x="1" data-y="1"></div>
+				<div class="col" data-x="1" data-y="2"></div>
+			</div>
+			<div class="row">
+				<div class="col" data-x="2" data-y="0"></div>
+				<div class="col" data-x="2" data-y="1"></div>
+				<div class="col" data-x="2" data-y="2"></div>
+			</div>
+		</div>
+		<script>
+/*
+			function bestMe(qipan){
+				var bestResult = [];
+				for( var x = 0 ; x != qipan.length ; ++x ){
+					for( var y = 0 ; y != qipan[x].length ; ++y ){
+
+						if( qipan[x][y] != 0 )
+							continue;
+
+						qipan[x][y] = -1;
+
+						var checkResult = check(qipan);
+						
+						if( checkResult == null ){
+							var computerResult = bestComputer(qipan);
+							bestResult.push(
+								{
+									position:{
+										x:x,
+										y:y
+									},
+									scored:computerResult.scored,
+								}
+							);
+						}else{
+							bestResult.push(
+								{
+									position:{
+										x:x,
+										y:y
+									},
+									scored:checkResult,
+								}
+							);
+						}
+						qipan[x][y] = 0;
+					}
+				}
+						
+				var finalResult = null;
+				for(var i=0;i!=bestResult.length;++i){
+					if(finalResult==null||finalResult.scored > bestResult[i].scored){
+						finalResult = bestResult[i];
+					}
+				}
+				return finalResult;
+			}
+function bestComputer(qipan){
+				var bestResult = [];
+				for( var x = 0 ; x != qipan.length ; ++x ){
+					for( var y = 0 ; y != qipan[x].length ; ++y ){
+
+						if( qipan[x][y] != 0 )
+							continue;
+
+						qipan[x][y] = 1;
+
+						var checkResult = check(qipan);
+						
+						if( checkResult == null ){
+							var meResult = bestMe(qipan);
+							bestResult.push(
+								{
+									position:{
+										x:x,
+										y:y
+									},
+									scored:meResult.scored,
+								}
+							);
+						}else{
+							bestResult.push(
+								{
+									position:{
+										x:x,
+										y:y
+									},
+									scored:checkResult,
+								}
+							);
+						}
+						qipan[x][y] = 0;
+					}
+				}
+						
+				var finalResult = null;
+				for(var i=0;i!=bestResult.length;++i){
+					if(finalResult==null||finalResult.scored < bestResult[i].scored){
+						finalResult = bestResult[i];
+					}
+				}
+				return finalResult;
+			}
+			function computer(qipan){
+				return bestComputer(qipan).position;
+			}
+*/
+			function bestMe(qipan){
+				var result = [];
+				for( var x = 0 ; x != qipan.length ; ++x ){
+					for( var y = 0 ; y != qipan[x].length ; ++y ){
+						if( qipan[x][y] != 0 )
+							continue;
+
+						qipan[x][y] = -1;
+						var checkResult = check(qipan);
+						if( checkResult == null ){
+							var computerResult = bestComputer(qipan);
+							result.push({
+								position:{
+									x:x,
+									y:y
+								},
+								score:computerResult.score,
+							});
+						}else{
+							result.push({
+								position:{
+									x:x,
+									y:y
+								},
+								score:checkResult,
+							});
+						}
+						qipan[x][y] = 0;
+					}
+				}
+				var finalResult = null;
+				for( var i = 0; i != result.length; ++i ){
+					if( (finalResult == null) || ( finalResult.score > result[i].score) ){
+						finalResult = result[i];
+					}
+				} 
+				return finalResult;
+			}
+			function bestComputer(qipan){
+				var result = [];
+				for( var x = 0 ; x != qipan.length ; ++x ){
+					for( var y = 0 ; y != qipan[x].length ; ++y ){
+						if( qipan[x][y] != 0 )
+							continue;
+
+						qipan[x][y] = 1;
+						var checkResult = check(qipan);
+						if( checkResult == null ){
+							var meResult = bestMe(qipan);
+							result.push({
+								position:{
+									x:x,
+									y:y
+								},
+								score:meResult.score,
+							});
+						}else{
+							result.push({
+								position:{
+									x:x,
+									y:y
+								},
+								score:checkResult,
+							});
+						}
+						qipan[x][y] = 0;
+					}
+				}
+				var finalResult = null;
+				for( var i = 0; i != result.length; ++i ){
+					if( (finalResult == null) || (finalResult.score < result[i].score )  ){
+						finalResult = result[i];
+					}
+				} 
+				return finalResult;
+			}
+			function computer(qipan){
+				var kk = bestComputer(qipan);
+				return kk.position;
+			}
+			function check(qipan){
+				var checkPosition = [
+					[ [0,0],[-1,0],[1,0]],
+					[ [0,0],[0,-1],[0,1]],
+					[ [0,0],[-1,-1],[1,1]],
+					[ [0,0],[-1,1],[1,-1]],
+				];
+				var hasZero = false;
+				for( var x = 0 ; x != qipan.length ; ++ x ){
+					for( var y = 0 ; y != qipan[x].length ; ++y ){
+						if( qipan[x][y] == 0 )
+							hasZero = true;
+						for( var z = 0 ; z != checkPosition.length ; ++z ){
+							var curx = checkPosition[z][0][0]+x;
+							var cury = checkPosition[z][0][1]+y;
+
+							var prevx = checkPosition[z][1][0]+x;
+							var prevy = checkPosition[z][1][1]+y;
+
+							var nextx = checkPosition[z][2][0]+x;
+							var nexty = checkPosition[z][2][1]+y;
+
+							if( curx >= 0 && curx < qipan.length &&
+								cury >= 0 && cury < qipan[0].length &&
+								prevx >= 0 && prevx < qipan.length &&
+								prevy >= 0 && prevy < qipan[0].length &&
+								nextx >= 0 && nextx < qipan.length &&
+								nexty >= 0 && nexty < qipan[0].length
+								){
+								if( qipan[curx][cury] == qipan[prevx][prevy] &&
+									qipan[curx][cury] == qipan[nextx][nexty] &&
+									qipan[curx][cury] != 0 ){
+									return qipan[curx][cury];
+								}
+									 
+							}
+						}
+
+					}
+				}
+				if( hasZero )
+					return null;
+				return 0;
+			}
+			function getQiPan(){
+				var data = [
+					[0,0,0],
+					[0,0,0],
+					[0,0,0]
+				];
+				$('.row').each(function(x){
+					$(this).find('.col').each(function(y){
+						var mk = $(this);
+						if( mk.hasClass('computer'))
+							data[x][y] = 1;
+						else if( mk.hasClass('me'))
+							data[x][y] = -1;
+						else
+							data[x][y] = 0;
+					});
+				});
+				return data;
+			}
+			function setQiPan(x,y,target){
+				var dom = $('.row:eq('+x+') .col:eq('+y+')');
+				if( target == 1 ){
+					dom.addClass('computer');
+					dom.text('computer');
+				}else if( target == -1 ){
+					dom.addClass('me');
+					dom.text('me');
+				}	
+			}
+			function goCheck(qipan){
+				var result = check(qipan);
+				if( result == null )
+					return false;
+				if( result == 1 ){
+					alert("电脑取胜");
+					return true;
+				}else if( result == -1 ){
+					alert("人类取胜");
+					return true;
+				}else{
+					alert("打和");
+					return true;
+				}
+			}
+			function goComputer(){
+				var qipan = getQiPan();
+				var isEnd = goCheck(qipan);
+				if( isEnd )
+					return;
+				$('.title').text('电脑在思考中');
+				var position = computer(qipan);
+				console.log(position);
+				setQiPan(position.x,position.y,1);
+				goMe();
+			}
+			function goMe(){
+				var qipan = getQiPan();
+				var isEnd = goCheck(qipan);
+				if( isEnd )
+					return;
+				$('.title').text('人类在思考中');
+				function onClick(){
+					var dom = $(this);
+					var x = dom.data('x');
+					var y = dom.data('y');
+					if( qipan[x][y] != 0 ){
+						alert("请在空白处下棋");
+						return;
+					}
+					setQiPan(x,y,-1);
+					$('.row .col').unbind('click');
+					goComputer();
+				}
+				$('.row .col').bind('click',onClick);
+			}
+			//goComputer();
+			goMe();
+		</script>
+	</body>
+</html>
+
