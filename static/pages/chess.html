@@ -26,7 +26,11 @@
 			.col.computer{
 				background-color:green;
 			}
-
+			.choose { color:#FC5457; padding: 15px;}
+			.startBtn { color:#FC5457; padding: 5px; margin:35px; font-size: 35px;background-color:#ccc;}
+			.changeBtn { color:#FC5457;padding: 5px; margin:35px; font-size: 35px;background-color:#ccc;}
+			.refresh { color:#FC5457;padding: 5px; margin:35px; font-size: 35px;background-color:#ccc; display:none;}
+			.internal { padding:15px;}
 		</style>
 	</head>
 	<body>
@@ -48,104 +52,13 @@
 				<div class="col" data-x="2" data-y="2"></div>
 			</div>
 		</div>
+		<div class="choose"><h1>please choose one to start</h1></div>
+		<div class=""><a class="startBtn">me first</a></div>
+		<div class="internal"></div>
+		<div class=""><a class="changeBtn">computer first</a></div>
+		<div class="internal"></div>
+		<div class=""><a class="refresh">refresh</a></div>
 		<script>
-/*
-			function bestMe(qipan){
-				var bestResult = [];
-				for( var x = 0 ; x != qipan.length ; ++x ){
-					for( var y = 0 ; y != qipan[x].length ; ++y ){
-
-						if( qipan[x][y] != 0 )
-							continue;
-
-						qipan[x][y] = -1;
-
-						var checkResult = check(qipan);
-						
-						if( checkResult == null ){
-							var computerResult = bestComputer(qipan);
-							bestResult.push(
-								{
-									position:{
-										x:x,
-										y:y
-									},
-									scored:computerResult.scored,
-								}
-							);
-						}else{
-							bestResult.push(
-								{
-									position:{
-										x:x,
-										y:y
-									},
-									scored:checkResult,
-								}
-							);
-						}
-						qipan[x][y] = 0;
-					}
-				}
-						
-				var finalResult = null;
-				for(var i=0;i!=bestResult.length;++i){
-					if(finalResult==null||finalResult.scored > bestResult[i].scored){
-						finalResult = bestResult[i];
-					}
-				}
-				return finalResult;
-			}
-function bestComputer(qipan){
-				var bestResult = [];
-				for( var x = 0 ; x != qipan.length ; ++x ){
-					for( var y = 0 ; y != qipan[x].length ; ++y ){
-
-						if( qipan[x][y] != 0 )
-							continue;
-
-						qipan[x][y] = 1;
-
-						var checkResult = check(qipan);
-						
-						if( checkResult == null ){
-							var meResult = bestMe(qipan);
-							bestResult.push(
-								{
-									position:{
-										x:x,
-										y:y
-									},
-									scored:meResult.scored,
-								}
-							);
-						}else{
-							bestResult.push(
-								{
-									position:{
-										x:x,
-										y:y
-									},
-									scored:checkResult,
-								}
-							);
-						}
-						qipan[x][y] = 0;
-					}
-				}
-						
-				var finalResult = null;
-				for(var i=0;i!=bestResult.length;++i){
-					if(finalResult==null||finalResult.scored < bestResult[i].scored){
-						finalResult = bestResult[i];
-					}
-				}
-				return finalResult;
-			}
-			function computer(qipan){
-				return bestComputer(qipan).position;
-			}
-*/
 			function bestMe(qipan){
 				var result = [];
 				for( var x = 0 ; x != qipan.length ; ++x ){
@@ -297,7 +210,7 @@ function bestComputer(qipan){
 				}else if( target == -1 ){
 					dom.addClass('me');
 					dom.text('me');
-				}	
+				}
 			}
 			function goCheck(qipan){
 				var result = check(qipan);
@@ -345,8 +258,26 @@ function bestComputer(qipan){
 				}
 				$('.row .col').bind('click',onClick);
 			}
-			//goComputer();
-			goMe();
+			function start(){
+				$(".changeBtn").click(function(){
+					$(".refresh").toggle();
+					$(".choose").hide();
+					$(".startBtn").hide();
+					$(".changeBtn").hide();
+					goComputer();
+				});
+				$(".startBtn").click(function(){
+					$(".refresh").toggle();
+					$(".choose").hide();
+					$(".changeBtn").hide();
+					$(".startBtn").hide();
+					goMe();
+				});
+				$(".refresh").click(function(){
+					location.reload();
+				});
+			}
+			start();
 		</script>
 	</body>
 </html>
